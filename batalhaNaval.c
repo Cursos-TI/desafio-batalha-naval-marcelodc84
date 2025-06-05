@@ -10,7 +10,7 @@ void ExibirTabuleiro(int tabuleiro[10][10]) {
     printf("    A B C D E F G H I J\n");
     for (int i = 0; i < 10; i++) {
         
-        i<9?
+        i < 9?
         printf("%d-  ", i + 1) :
         printf("%d- ", i + 1);
 
@@ -31,7 +31,7 @@ int main() {
     int tabuleiro[10][10] = {0}; // Inicializa o tabuleiro com 0 (vazio)
 
     int navioH[] = {2, 1}; // Coordenadas do navio horizontal (linha 3, colunas 2 a 4)
-    int navioV[] = {5, 4}; // Coordenadas do navio vertical (coluna 6, linhas 5,6,7)
+    int navioV[] = {4, 5}; // Coordenadas do navio vertical (coluna 6, linhas 5,6,7)
 
     int navioDa[] = {6, 0}; // Coordenadas do navio diagonal crescente (linha 7, coluna 1 a linha 5 coluna 3)
     int navioDd[] = {0, 7}; // Coordenadas do navio diagonal decrescente (linha 1, coluna 8 a linha 3 coluna 10)
@@ -45,17 +45,64 @@ int main() {
         tabuleiro[navioV[0]+i][navioV[1]] = 3; // Navio vertical na coluna 6, linhas 5 a 7
     }
     // Posiciona um navio diagonalmente (crescente)
-    for(int i = 0, j=0; i < 3; i++, j++) {
-        tabuleiro[navioDa[0]-i][navioDa[1]+j] = 3; // Navio diagonal da posição (7,1) a (5,3)
+    for(int i = 0; i < tamanho; i++) {
+        tabuleiro[navioDa[0]-i][navioDa[1]+i] = 3; // Navio diagonal da posição (7,1) a (5,3)
+    }
+    // // Posiciona um navio diagonalmente (decrescente)
+    for(int i = 0; i < tamanho; i++) {
+        tabuleiro[navioDd[0]+i][navioDd[1]+i] = 3; // Navio diagonal da posição (1,8) a (3,10)
+    }
+
+    //ExibirTabuleiro(tabuleiro);
+
+    /////////////////////////////////////
+
+    //aplicar cone ao tabuleiro
+    int cone[3][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1}
+    };
+    int coneStart[] = {0, 3}; // Posição inicial do cone no tabuleiro (linha 1 coluna 4)
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (cone[i][j] == 1) {            
+                tabuleiro[coneStart[0] + i][coneStart[1] + j] = 1; // Marca a área afetada pelo cone
+            }
+        }
     }
     
-    // // Posiciona um navio diagonalmente (decrescente)
-    for(int i = 0, j=0; i < 3; i++, j++) {
-        tabuleiro[navioDd[0]+i][navioDd[1]+j] = 3; // Navio diagonal da posição (1,8) a (3,10)
+    //aplicar cruz ao tabuleiro
+    int cruz[3][5] = {
+        {0, 0, 1, 0, 0},
+        {1, 1, 1, 1, 1},
+        {0, 0, 1, 0, 0}
+    };
+    int cruzStart[] = {4, 0}; // Posição inicial da cruz no tabuleiro (linha 5 coluna 1)
+    for(int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (cruz[i][j] == 1) {            
+                tabuleiro[cruzStart[0] + i][cruzStart[1] + j] = 1; // Marca a área afetada pela cruz
+            }
+        }
     }
-
+    
+    //aplicar octaedro ao tabuleiro
+    int oct[3][5]={
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
+    int octStart[] = {7, 5}; // Posição inicial do octaedro no tabuleiro (linha 8 coluna 6)
+    for(int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (oct[i][j] == 1) {            
+                tabuleiro[octStart[0] + i][octStart[1] + j] = 1; // Marca a área afetada pelo octaedro
+            }
+        }
+    }
+    
     ExibirTabuleiro(tabuleiro);
-
     
     // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
     // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
